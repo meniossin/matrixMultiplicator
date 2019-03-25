@@ -40,5 +40,13 @@ public class MatrixGenerator {
         }
     }
 
+    /*
+     Calculates this matrix(n x m) with another Matrix(m x p)
+     *producing an (n x p) matrix.
+     */
+    public int[][] calculateMatrices(int[][] matrix2){
+        this.matrix = new int[][]
+    }
+
 
 }
