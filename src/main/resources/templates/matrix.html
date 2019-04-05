@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Matrix on print</title>
+</head>
+
+<body>
+	<h1>Result:</h1>
+	<p th:text="'row: ' + ${matrix.rowSize}" />
+	<p th:text="'column: ' + ${matrix.columnSize}" />
+
+	<form action="#" th:action="@{/multiplyMatrix}" method="post">
+		 
+		 <h2>Matrix 1</h2>
+		 <table style="display:inline-block;">
+		 
+		   
+            <tr th:each="row, rowStat : *{matrix.data}">
+                <td th:each="column, columnStat : ${row}">
+                    <label></label>
+                    <input type="text" th:field="*{matrix.data[__${rowStat.index}__][__${columnStat.index}__]}" />
+                </td>
+            </tr>
+        </table>
+        
+         <h2>Matrix 2</h2>
+         <table style="display:inline-block;">
+            <tr th:each="row, rowStat : *{matrix2.data}">
+                <td th:each="column, columnStat : ${row}">
+                    <label></label>
+                    <input type="text" th:field="*{matrix2.data[__${rowStat.index}__][__${columnStat.index}__]}" />
+                </td>
+            </tr>
+        </table>
+        <button type="submit" name="submitInput">Multiply</button>
+	</form>
+</body>
+</html>
