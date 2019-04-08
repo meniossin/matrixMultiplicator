@@ -2,7 +2,6 @@ package com.example.matrix_mult.domain;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Arrays;
 
 
 public class Matrix {
@@ -25,6 +24,11 @@ public class Matrix {
         this.rowSize = rowSize;
         this.columnSize = columnSize;
         this.data = new int [rowSize][columnSize];
+        this.dataToString = "";
+    }
+    
+    public Matrix() {
+    	
     }
 
     /**GETTERS**/
@@ -35,30 +39,47 @@ public class Matrix {
     public int getColumnSize(){
         return  this.columnSize;
     }
+    
+    public int[][] getData(){
+    	return this.data;
+    }
+    
 
     public String getDataToString(){return this.dataToString;}
 
     /**SETTERS**/
-    public void setRowSize(Integer rowSize) {
+    public void setRowSize(int rowSize) {
         this.rowSize = rowSize;
     }
 
     public void setColumnSize(int columnSize){
         this.columnSize = columnSize;
     }
-    
-    public int[][] getData(){
-    	return this.data;
+
+
+    public void setData(int[][] data){
+        this.data = data;
     }
+
+
+    public void setDataToString(String dataString){
+        this.dataToString = dataString;
+    }
+    
+   
 
     /**METHODS**/
     // print matrix to standard output
-    public void show() {
+    public String show() {
 
-       this.dataToString = Arrays.deepToString(data)
-               .replace("], ", "\n").replaceAll(",|\\[|\\]", "");
-
-        System.out.println(dataToString);
+    	for (int i = 0; i < this.rowSize; i++) {
+    		 for (int j = 0; j < this.columnSize; j++) {
+             	dataToString += this.data[i][j] + " ";
+             }
+    		 dataToString += System.lineSeparator();
+    	}
+           
+        return dataToString;
     }
 
 
@@ -69,9 +90,9 @@ public class Matrix {
 
         Matrix C = new Matrix(A.rowSize, B.columnSize);
 
-        for (int i = 0; i < C.rowSize; i++)
-            for (int j = 0; j < C.columnSize; j++)
-                for (int k = 0; k < A.columnSize; k++)
+        for (int i = 0; i < this.rowSize; i++)
+            for (int j = 0; j < B.columnSize; j++)
+                for (int k = 0; k < this.columnSize; k++)
                     C.data[i][j] += (A.data[i][k] * B.data[k][j]);
         return C;
     }

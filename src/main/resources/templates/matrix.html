@@ -7,34 +7,40 @@
 </head>
 
 <body>
-	<h1>Result:</h1>
-	<p th:text="'row: ' + ${matrix.rowSize}" />
-	<p th:text="'column: ' + ${matrix.columnSize}" />
 
-	<form action="#" th:action="@{/multiplyMatrix}" method="post">
+<h1>Enter the elements of the matrices</h1>
+	<form action="#" th:action="@{/multiplyMatrix}" th:object="${mg}" method="post">
 		 
 		 <h2>Matrix 1</h2>
+
 		 <table style="display:inline-block;">
-		 
-		   
-            <tr th:each="row, rowStat : *{matrix.data}">
+            <tr  th:each="row, rowStat : *{matrix1.data}">
+              
                 <td th:each="column, columnStat : ${row}">
-                    <label></label>
-                    <input type="text" th:field="*{matrix.data[__${rowStat.index}__][__${columnStat.index}__]}" />
+                    <input type="text" th:field="*{matrix1.data[__${rowStat.index}__][__${columnStat.index}__]}" />
                 </td>
             </tr>
         </table>
-        
+
+
          <h2>Matrix 2</h2>
          <table style="display:inline-block;">
-            <tr th:each="row, rowStat : *{matrix2.data}">
-                <td th:each="column, columnStat : ${row}">
-                    <label></label>
-                    <input type="text" th:field="*{matrix2.data[__${rowStat.index}__][__${columnStat.index}__]}" />
+            <tr th:each="row2, rowStat2 : *{matrix2.data}">
+                <td th:each="column2, columnStat2 : ${row2}">
+                    <input type="text" th:field="*{matrix2.data[__${rowStat2.index}__][__${columnStat2.index}__]}" />
                 </td>
             </tr>
         </table>
-        <button type="submit" name="submitInput">Multiply</button>
+
+        <input type="submit" id="submitButton" value="Save">
+        <input type="reset" id="resetButton" name="reset" value="Reset"/>
+
+        <ul th:if="${#fields.hasErrors('*')}">
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+        </ul>
 	</form>
+
+
+
 </body>
 </html>

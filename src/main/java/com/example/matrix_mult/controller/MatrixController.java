@@ -1,6 +1,8 @@
 package com.example.matrix_mult.controller;
 
 import com.example.matrix_mult.domain.Matrix;
+import com.example.matrix_mult.domain.MatrixGenerator;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,31 +12,45 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @Controller
+@SessionAttributes("mg")
 public class MatrixController {
+
+
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("matrix", new Matrix(0, 0));
+      
         
-        model.addAttribute("matrix2", new Matrix(0, 0));
+    	Matrix m1 = new Matrix(0,0);
+    	Matrix m2 = new Matrix(0,0);
+    	
+    	MatrixGenerator mg = new MatrixGenerator();
+    	mg.setMatrix1(m1);
+    	mg.setMatrix2(m2);
+       
+    	model.addAttribute("mg", mg);
         
         return "home";
     }
 
     @PostMapping(value="/printMatrix1")
-    public String printMatrix1(@ModelAttribute("matrix") Matrix matrix, @ModelAttribute("matrix") Matrix matrix2,  BindingResult result, HttpServletRequest request, Model model){
+    public String printMatrix1(@ModelAttribute("mg") MatrixGenerator mg,  BindingResult result, HttpServletRequest request, Model model){
     	
 
         if(!result.hasErrors()){
-        	
-            System.out.println("Row for matrix 1: " + matrix.getRowSize());
-            System.out.println("Column for matrix 1: " + matrix.getColumnSize());
+
+            System.out.println("matrix 1: " + mg.getMatrix1());
+            System.out.println("Row for matrix 1: " + mg.getMatrix1().getRowSize());
+            System.out.println("Column for matrix 1: " + mg.getMatrix1().getColumnSize());
+
+            System.out.println("matrix 2: " + mg.getMatrix2());
+            System.out.println("Row for matrix 2: " + mg.getMatrix2().getRowSize());
+            System.out.println("Column for matrix 2: " +mg.getMatrix2().getColumnSize());
             
-            System.out.println("Row for matrix 2: " + matrix2.getRowSize());
-            System.out.println("Column for matrix 2: " + matrix2.getColumnSize());
-            model.addAttribute("matrix", matrix);
-       	    model.addAttribute("matrix2", matrix2);
-       	 
+        	mg.getMatrix1().setData(new int[mg.getMatrix1().getRowSize()][mg.getMatrix1().getColumnSize()]);
+        	mg.getMatrix2().setData(new int[mg.getMatrix2().getRowSize()][mg.getMatrix2().getColumnSize()]);
+
+        	model.addAttribute("mg",mg);
             return "matrix";
         }
 
@@ -46,11 +62,25 @@ public class MatrixController {
     }
     
     
-    
     @PostMapping(value="/multiplyMatrix")
-    public String multiplyMatrix() {
-    	
-    	return "matrix";
+    public String multiplyMatrix(@ModelAttribute("mg") MatrixGenerator mg, Model model,  BindingResult result, HttpServletRequest request) {
+
+        if(!result.hasErrors() && mg.getMatrix1() != null && mg.getMatrix2() != null){
+            Matrix matrixResult = mg.getMatrix1().times(mg.getMatrix2());
+
+            System.out.println("Result matrix:" + matrixResult.show());
+            model.addAttribute("result", matrixResult.getDataToString());
+            return "resultMatrix";
+
+        }
+
+        else{
+            System.out.println("Error : " + result.getFieldError());
+
+        }
+
+        return "matrix";
+
     }
 
 }
