@@ -1,4 +1,4 @@
-# matrixMultiplicator
+# Matrix-Multiplicator
 A small app written in Java Spring that produces a matrix multiplication from the users input.
 
 
