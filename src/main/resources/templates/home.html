@@ -32,8 +32,13 @@
         </div>
 		
 		<div style="position:absolute;margin-top:15px;">
-			<input type="submit" value="Input and Print Matrices" />
+			<input type="submit" value="Print and Input Matrices" />
 		</div>
+
+		<ul th:if="${#fields.hasErrors('global')}">
+			<li th:each="err : ${#fields.errors('global')}" th:text="${err}">Input is incorrect</li>
+		</ul>
+
 	</form>
 
 	 

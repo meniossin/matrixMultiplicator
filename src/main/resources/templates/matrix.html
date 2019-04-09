@@ -35,10 +35,10 @@
         <input type="submit" id="submitButton" value="Save">
         <input type="reset" id="resetButton" name="reset" value="Reset"/>
 
-        <ul th:if="${#fields.hasErrors('*')}">
-            <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+        <ul th:if="${#fields.hasErrors('global')}">
+            <li th:each="err : ${#fields.errors('global')}" th:text="${err}">Input is incorrect</li>
         </ul>
-	</form>
+    </form>
 
 
 

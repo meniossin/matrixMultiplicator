@@ -62,26 +62,20 @@ public class Matrix {
     }
 
 
-    public void setDataToString(String dataString){
-        this.dataToString = dataString;
+    public String setDataToString(){
+        for (int i = 0; i < this.rowSize; i++) {
+            for (int j = 0; j < this.columnSize; j++) {
+                dataToString += this.data[i][j] + " ";
+            }
+            dataToString += System.lineSeparator();
+        }
+
+        return dataToString;
     }
     
    
 
     /**METHODS**/
-    // print matrix to standard output
-    public String show() {
-
-    	for (int i = 0; i < this.rowSize; i++) {
-    		 for (int j = 0; j < this.columnSize; j++) {
-             	dataToString += this.data[i][j] + " ";
-             }
-    		 dataToString += System.lineSeparator();
-    	}
-           
-        return dataToString;
-    }
-
 
     // return C(n x p) = A(n x m) * B(m x p)
     public Matrix times(Matrix B) {

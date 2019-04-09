@@ -17,6 +17,12 @@ public class MatrixController {
 
 
 
+    private final String validationError = "The number of columns of first matrix must be equal to the number of rows of second matrix";
+
+    public String getValidationError() {
+        return validationError;
+    }
+
     @GetMapping("/")
     public String home(Model model) {
       
@@ -29,7 +35,7 @@ public class MatrixController {
     	mg.setMatrix2(m2);
        
     	model.addAttribute("mg", mg);
-        
+
         return "home";
     }
 
@@ -66,12 +72,13 @@ public class MatrixController {
     public String multiplyMatrix(@ModelAttribute("mg") MatrixGenerator mg, Model model,  BindingResult result, HttpServletRequest request) {
 
         if(!result.hasErrors() && mg.getMatrix1() != null && mg.getMatrix2() != null){
+
+
             Matrix matrixResult = mg.getMatrix1().times(mg.getMatrix2());
 
-            System.out.println("Result matrix:" + matrixResult.show());
+            System.out.println("Result matrix:" + matrixResult.setDataToString());
             model.addAttribute("result", matrixResult.getDataToString());
             return "resultMatrix";
-
         }
 
         else{
@@ -80,6 +87,15 @@ public class MatrixController {
         }
 
         return "matrix";
+
+    }
+
+    @ExceptionHandler(value = {RuntimeException.class})
+    public String MatrixExceptionHandler(Exception ex, Model model) {
+        String msg = ex.getMessage();
+        model.addAttribute("validationError", msg);
+
+        return  "home";
 
     }
 
