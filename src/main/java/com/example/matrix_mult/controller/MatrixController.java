@@ -3,10 +3,12 @@ package com.example.matrix_mult.controller;
 import com.example.matrix_mult.domain.Matrix;
 import com.example.matrix_mult.domain.MatrixGenerator;
 
+import com.example.matrix_mult.domain.MatrixValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,31 +42,32 @@ public class MatrixController {
     }
 
     @PostMapping(value="/printMatrix1")
-    public String printMatrix1(@ModelAttribute("mg") MatrixGenerator mg,  BindingResult result, HttpServletRequest request, Model model){
-    	
+    public String printMatrix1(@ModelAttribute("mg") MatrixGenerator mg, BindingResult result, RedirectAttributes redAttr, Model model){
 
-        if(!result.hasErrors()){
+        MatrixValidator matrixValidator = new MatrixValidator();
 
-            System.out.println("matrix 1: " + mg.getMatrix1());
-            System.out.println("Row for matrix 1: " + mg.getMatrix1().getRowSize());
-            System.out.println("Column for matrix 1: " + mg.getMatrix1().getColumnSize());
-
-            System.out.println("matrix 2: " + mg.getMatrix2());
-            System.out.println("Row for matrix 2: " + mg.getMatrix2().getRowSize());
-            System.out.println("Column for matrix 2: " +mg.getMatrix2().getColumnSize());
-            
-        	mg.getMatrix1().setData(new int[mg.getMatrix1().getRowSize()][mg.getMatrix1().getColumnSize()]);
-        	mg.getMatrix2().setData(new int[mg.getMatrix2().getRowSize()][mg.getMatrix2().getColumnSize()]);
-
-        	model.addAttribute("mg",mg);
-            return "matrix";
-        }
-
-        else if(result.hasErrors()){
+        matrixValidator.validate(mg, result);
+        if(result.hasErrors()){
             System.out.println("Error : " + result.getFieldError());
+            model.addAttribute("error", result.getFieldError().getDefaultMessage());
+            return "home";
         }
 
-        return "home";
+        System.out.println("matrix 1: " + mg.getMatrix1());
+        System.out.println("Row for matrix 1: " + mg.getMatrix1().getRowSize());
+        System.out.println("Column for matrix 1: " + mg.getMatrix1().getColumnSize());
+
+        System.out.println("matrix 2: " + mg.getMatrix2());
+        System.out.println("Row for matrix 2: " + mg.getMatrix2().getRowSize());
+        System.out.println("Column for matrix 2: " +mg.getMatrix2().getColumnSize());
+
+        mg.getMatrix1().setData(new int[mg.getMatrix1().getRowSize()][mg.getMatrix1().getColumnSize()]);
+        mg.getMatrix2().setData(new int[mg.getMatrix2().getRowSize()][mg.getMatrix2().getColumnSize()]);
+
+        model.addAttribute("mg",mg);
+        return "matrix";
+
+
     }
     
     
@@ -87,15 +90,6 @@ public class MatrixController {
         }
 
         return "matrix";
-
-    }
-
-    @ExceptionHandler(value = {RuntimeException.class})
-    public String MatrixExceptionHandler(Exception ex, Model model) {
-        String msg = ex.getMessage();
-        model.addAttribute("validationError", msg);
-
-        return  "home";
 
     }
 

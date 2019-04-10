@@ -1,18 +1,14 @@
 package com.example.matrix_mult.domain;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.util.Arrays;
 
 
 public class Matrix {
 
 
-    @NotNull
-    @Size(min=1, max=40)
+
     private int rowSize; // number of rows
 
-    @NotNull
-    @Size(min=1, max=40)
     private int columnSize; //number of columns
 
     private int[][] data;// M-by-N array
@@ -43,7 +39,6 @@ public class Matrix {
     public int[][] getData(){
     	return this.data;
     }
-    
 
     public String getDataToString(){return this.dataToString;}
 
@@ -56,24 +51,17 @@ public class Matrix {
         this.columnSize = columnSize;
     }
 
-
     public void setData(int[][] data){
         this.data = data;
     }
 
 
     public String setDataToString(){
-        for (int i = 0; i < this.rowSize; i++) {
-            for (int j = 0; j < this.columnSize; j++) {
-                dataToString += this.data[i][j] + " ";
-            }
-            dataToString += System.lineSeparator();
-        }
+        dataToString = Arrays.deepToString(data);
 
         return dataToString;
     }
     
-   
 
     /**METHODS**/
 
