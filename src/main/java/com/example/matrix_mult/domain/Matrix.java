@@ -5,8 +5,6 @@ import java.util.Arrays;
 
 public class Matrix {
 
-
-
     private int rowSize; // number of rows
 
     private int columnSize; //number of columns
@@ -15,7 +13,7 @@ public class Matrix {
 
     private String dataToString;
 
-    /**CONSTRUCTOR**/
+    /**CONSTRUCTORS**/
     public Matrix(int rowSize, int columnSize ){
         this.rowSize = rowSize;
         this.columnSize = columnSize;
@@ -68,7 +66,6 @@ public class Matrix {
     // return C(n x p) = A(n x m) * B(m x p)
     public Matrix times(Matrix B) {
         Matrix A = this;
-        if (A.columnSize != B.rowSize) throw new RuntimeException("Illegal matrix dimensions.");
 
         Matrix C = new Matrix(A.rowSize, B.columnSize);
 

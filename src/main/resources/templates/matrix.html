@@ -10,37 +10,43 @@
 
 <h1>Enter the elements of the matrices</h1>
 	<form action="#" th:action="@{/multiplyMatrix}" th:object="${mg}" method="post">
-		 
-		 <h2>Matrix 1</h2>
+		 <div>
+             <h2>Matrix 1</h2>
 
-		 <table style="display:inline-block;">
-            <tr  th:each="row, rowStat : *{matrix1.data}">
-              
-                <td th:each="column, columnStat : ${row}">
-                    <input type="text" th:field="*{matrix1.data[__${rowStat.index}__][__${columnStat.index}__]}" />
-                </td>
-            </tr>
-        </table>
+             <table style="display:inline-block;">
+                 <tr  th:each="row, rowStat : *{matrix1.data}">
+
+                     <td th:each="column, columnStat : ${row}">
+                         <input type="text" th:field="*{matrix1.data[__${rowStat.index}__][__${columnStat.index}__]}" />
+                     </td>
+                 </tr>
+             </table>
+
+             <input type="submit" name="print_matrix1" id="printButton1" value="Print Matrix1"/>
 
 
-         <h2>Matrix 2</h2>
-         <table style="display:inline-block;">
-            <tr th:each="row2, rowStat2 : *{matrix2.data}">
-                <td th:each="column2, columnStat2 : ${row2}">
-                    <input type="text" th:field="*{matrix2.data[__${rowStat2.index}__][__${columnStat2.index}__]}" />
-                </td>
-            </tr>
-        </table>
+             <h2>Matrix 2</h2>
+             <table style="display:inline-block;">
+                 <tr th:each="row2, rowStat2 : *{matrix2.data}">
+                     <td th:each="column2, columnStat2 : ${row2}">
+                         <input type="text" th:field="*{matrix2.data[__${rowStat2.index}__][__${columnStat2.index}__]}" />
+                     </td>
+                 </tr>
+             </table>
 
-        <input type="submit" id="submitButton" value="Save">
-        <input type="reset" id="resetButton" name="reset" value="Reset"/>
+             <input type="submit" name="print_matrix2" id="printButton2" value="Print Matrix2"/>
+
+         </div>
+
+        <div style="display: inline-block">
+            <input type="submit" id="submitButton" value="Multiply"/>
+            <input type="reset" id="resetButton" name="reset" value="Reset"/>
+        </div>
+
 
         <ul th:if="${#fields.hasErrors('global')}">
             <li th:each="err : ${#fields.errors('global')}" th:text="${err}">Input is incorrect</li>
         </ul>
     </form>
-
-
-
 </body>
 </html>

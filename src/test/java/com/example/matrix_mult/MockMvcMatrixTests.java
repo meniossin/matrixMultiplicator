@@ -31,8 +31,6 @@ public class MockMvcMatrixTests {
     @Autowired
     private MockMvc mvc;
 
-
-
     @Test
     public void testHomeEndpoint() throws Exception{
         MatrixGenerator mg = new MatrixGenerator();
@@ -41,8 +39,6 @@ public class MockMvcMatrixTests {
 
         mg.setMatrix1(matrix1);
         mg.setMatrix1(matrix2);
-
-
 
         this.mvc.perform(get("/").sessionAttr("mg", mg)).andExpect(status().isOk()).
                 andExpect(model().attributeExists("mg")).andExpect(view().name("home"));

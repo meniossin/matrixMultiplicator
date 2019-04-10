@@ -7,7 +7,7 @@
 <body>
 
 	<span><p>Please enter the size of the matrices(rows and columns)</p></span>
-	<form action="#" th:action="@{/printMatrix1}" th:object="${mg}" method="post">
+	<form action="#" th:action="@{/inputMatrices}" th:object="${mg}" method="post">
 		
 		<div>
 		   <h2>Matrix 1</h2>
@@ -18,8 +18,6 @@
 
 			<label for="column1">Column</label> 
 			<input type="text" th:field="*{matrix1.columnSize}" id="column1" placeholder="Column" />
-
-
 		</div>
 		
 		
@@ -32,11 +30,10 @@
 
 			<label for="column2">Column</label>
             <input type="text" th:field="*{matrix2.columnSize}" id="column2" placeholder="Column"/>
-
 		</div>
 		
 		<div style="position:absolute;margin-top:15px;">
-			<input type="submit" value="Print and Input Matrices" />
+			<input type="submit" value="Add Input/Print Matrices" />
 		</div>
 
 		<div style="display: inline-block;">

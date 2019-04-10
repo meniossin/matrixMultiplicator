@@ -34,8 +34,8 @@ public class MatrixController {
         return "home";
     }
 
-    @PostMapping(value="/printMatrix1")
-    public String printMatrix1(@ModelAttribute("mg") MatrixGenerator mg, BindingResult result, RedirectAttributes redAttr, Model model){
+    @PostMapping(value="/inputMatrices")
+    public String inputMatrices(@ModelAttribute("mg") MatrixGenerator mg, BindingResult result, RedirectAttributes redAttr, Model model){
 
         MatrixValidator matrixValidator = new MatrixValidator();
 
@@ -59,13 +59,43 @@ public class MatrixController {
 
         model.addAttribute("mg",mg);
         return "matrix";
+    }
 
 
+    @GetMapping(value = "/inputMatrices")
+    public String goBackToInput(@ModelAttribute("mg") MatrixGenerator mg){
+        return "matrix";
+    }
+
+
+    @PostMapping(value = "/multiplyMatrix", params="print_matrix1")
+    public String printMatrix1(@ModelAttribute("mg") MatrixGenerator mg, Model model,  BindingResult result){
+
+        if(result.hasErrors() || mg.getMatrix1().getData() == null ){
+            return "matrix";
+        }
+
+        mg.getMatrix1().setDataToString();
+        model.addAttribute("print", mg.getMatrix1().getDataToString());
+        return "print_matrix";
+    }
+
+
+    @PostMapping(value = "/multiplyMatrix", params="print_matrix2")
+    public String printMatrix2(@ModelAttribute("mg") MatrixGenerator mg, Model model,  BindingResult result){
+
+        if(result.hasErrors() || mg.getMatrix2().getData() == null ){
+            return "matrix";
+        }
+
+        mg.getMatrix2().setDataToString();
+        model.addAttribute("print", mg.getMatrix2().getDataToString());
+        return "print_matrix";
     }
     
     
     @PostMapping(value="/multiplyMatrix")
-    public String multiplyMatrix(@ModelAttribute("mg") MatrixGenerator mg, Model model,  BindingResult result, HttpServletRequest request) {
+    public String multiplyMatrix(@ModelAttribute("mg") MatrixGenerator mg, Model model,  BindingResult result) {
 
         if(!result.hasErrors() && mg.getMatrix1() != null && mg.getMatrix2() != null){
 
