@@ -18,13 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 public class MatrixController {
 
 
-
-    private final String validationError = "The number of columns of first matrix must be equal to the number of rows of second matrix";
-
-    public String getValidationError() {
-        return validationError;
-    }
-
     @GetMapping("/")
     public String home(Model model) {
       
@@ -76,7 +69,6 @@ public class MatrixController {
 
         if(!result.hasErrors() && mg.getMatrix1() != null && mg.getMatrix2() != null){
 
-
             Matrix matrixResult = mg.getMatrix1().times(mg.getMatrix2());
 
             System.out.println("Result matrix:" + matrixResult.setDataToString());
@@ -90,7 +82,6 @@ public class MatrixController {
         }
 
         return "matrix";
-
     }
 
 }
